@@ -90,3 +90,14 @@ describe("total likes", () => {
     assert.strictEqual(result, 0);
   });
 });
+
+describe("favorite blog", () => {
+  test("returns the blog with the most likes", () => {
+    const result = listHelper.favoriteBlog(blogList);
+    assert.deepStrictEqual(result, {
+      title: "Canonical string reduction",
+      author: "Edsger W. Dijkstra",
+      likes: 12,
+    }); // deepStrictEqual - comparing object and props
+  });
+});
