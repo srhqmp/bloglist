@@ -4,7 +4,7 @@
   "description": "code for Bloglist app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test",
     "start": "node ./backend/index.js",
     "dev": "nodemon ./backend/index.js"
   },
