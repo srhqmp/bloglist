@@ -1,0 +1,31 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "My First Blog",
+    "author": "Sarah",
+    "url": "https://www.google.com",
+    "likes": 0
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "My Second Blog",
+    "author": "Sarah",
+    "url": "https://www.google.com",
+    "likes": 12
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "A Blog",
+    "author": "Gladys",
+    "url": "https://www.google.com",
+    "likes": 3
+}
