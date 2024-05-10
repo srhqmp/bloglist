@@ -54,6 +54,21 @@ test("a blog can be created", async () => {
   assert.strictEqual(titles.includes("My New Blog"), true);
 });
 
+test("default likes is 0", async () => {
+  const blog = {
+    title: "Blog with no likes",
+    author: "Sarah",
+  };
+
+  const response = await api
+    .post("/api/blogs")
+    .send(blog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  assert.strictEqual(response.body.likes, 0);
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
