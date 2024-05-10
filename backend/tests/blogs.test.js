@@ -109,6 +109,19 @@ test("server will throw error 400 for missing title or url", async () => {
   assert.strictEqual(blogsAtEnd.length, blogsAtStart.length);
 });
 
+test.only("deletion of a blog", async () => {
+  const blogsAtStart = await helper.blogsInDb();
+
+  const blogToDelete = blogsAtStart[0];
+
+  await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+
+  const blogsAtEnd = await helper.blogsInDb();
+
+  assert(!blogsAtEnd.find((blog) => blog.id === blogToDelete.id));
+  assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1);
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
