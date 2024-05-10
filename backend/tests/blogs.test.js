@@ -43,6 +43,7 @@ test("a blog can be created", async () => {
   const blog = {
     title: "My New Blog",
     author: "Sarah",
+    url: "http://google.com",
   };
 
   await api.post("/api/blogs").send(blog).expect(201);
@@ -58,6 +59,7 @@ test("default likes is 0", async () => {
   const blog = {
     title: "Blog with no likes",
     author: "Sarah",
+    url: "http://google.com",
   };
 
   const response = await api
@@ -122,7 +124,7 @@ test("deletion of a blog", async () => {
   assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1);
 });
 
-test.only("can update blog", async () => {
+test("can update blog", async () => {
   const blogsAtStart = await helper.blogsInDb();
 
   const blogToUpdate = blogsAtStart[0];

@@ -16,3 +16,23 @@ Content-Type: application/json
     "name": "Superuser",
     "password": "secret"
 }
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "invalid-user",
+    "name": "John",
+    "password": "12"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "12",
+    "name": "John",
+    "password": "hwllo"
+}
