@@ -29,6 +29,14 @@ test("blogs api returns json", async () => {
   assert.strictEqual(response.body.length, helper.initialBlogs.length);
 });
 
+test("verify that blog returns 'id' as unique identifier", async () => {
+  const blogs = await helper.blogsInDb();
+  const keys = Object.keys(blogs[0]);
+
+  assert.strictEqual(keys.includes("id"), true);
+  assert(!keys.includes("_id"));
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
