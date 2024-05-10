@@ -37,6 +37,23 @@ test("verify that blog returns 'id' as unique identifier", async () => {
   assert(!keys.includes("_id"));
 });
 
+test("a blog can be created", async () => {
+  const blogsAtStart = await helper.blogsInDb();
+
+  const blog = {
+    title: "My New Blog",
+    author: "Sarah",
+  };
+
+  await api.post("/api/blogs").send(blog).expect(201);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  const titles = blogsAtEnd.map((b) => b.title);
+
+  assert.strictEqual(blogsAtEnd.length, blogsAtStart.length + 1);
+  assert.strictEqual(titles.includes("My New Blog"), true);
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
