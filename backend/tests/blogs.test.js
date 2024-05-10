@@ -109,7 +109,7 @@ test("server will throw error 400 for missing title or url", async () => {
   assert.strictEqual(blogsAtEnd.length, blogsAtStart.length);
 });
 
-test.only("deletion of a blog", async () => {
+test("deletion of a blog", async () => {
   const blogsAtStart = await helper.blogsInDb();
 
   const blogToDelete = blogsAtStart[0];
@@ -120,6 +120,26 @@ test.only("deletion of a blog", async () => {
 
   assert(!blogsAtEnd.find((blog) => blog.id === blogToDelete.id));
   assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1);
+});
+
+test.only("can update blog", async () => {
+  const blogsAtStart = await helper.blogsInDb();
+
+  const blogToUpdate = blogsAtStart[0];
+
+  await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send({
+      ...blogToUpdate,
+      likes: blogToUpdate.likes + 1,
+    })
+    .expect(200)
+    .expect("Content-Type", /application\/json/);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  const updatedBlog = blogsAtEnd.find((blog) => blog.id === blogToUpdate.id);
+
+  assert.strictEqual(updatedBlog.likes, blogToUpdate.likes + 1);
 });
 
 after(async () => {
