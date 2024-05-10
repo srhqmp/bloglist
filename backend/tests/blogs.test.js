@@ -69,6 +69,48 @@ test("default likes is 0", async () => {
   assert.strictEqual(response.body.likes, 0);
 });
 
+test("server will throw error 400 for missing title or url", async () => {
+  const blogsAtStart = await helper.blogsInDb();
+
+  const blog = {
+    title: "A Day In My Life",
+    author: "Sarah",
+    url: "http://google.com",
+  };
+
+  //   blog with no title and url
+  await api
+    .post("/api/blogs")
+    .send({
+      author: blog.author,
+    })
+    .expect(400);
+
+  // blog with no title
+  await api
+    .post("/api/blogs")
+    .send({
+      author: blog.author,
+      url: blog.url,
+    })
+    .expect(400);
+
+  // blog with no url
+  await api
+    .post("/api/blogs")
+    .send({
+      title: blog.title,
+      author: blog.author,
+    })
+    .expect(400);
+
+  const blogsAtEnd = await helper.blogsInDb();
+
+  assert.strictEqual(blogsAtEnd.length, blogsAtStart.length);
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
+
+// npm test -- --test-only

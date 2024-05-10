@@ -25,11 +25,11 @@ const blogSchema = new mongoose.Schema({
   },
   author: {
     type: String,
-    requred: true,
   },
   url: {
     type: String,
     default: null,
+    required: true,
   },
   likes: {
     type: Number,
