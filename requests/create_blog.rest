@@ -2,10 +2,11 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "My First Blog",
+    "title": "Ere",
     "author": "Sarah",
     "url": "https://www.google.com",
-    "likes": 0
+    "likes": 0,
+    "userId": "663e59b52e70c71a7c740d40"
 }
 
 ###
