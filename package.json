@@ -4,7 +4,7 @@
   "description": "code for Bloglist app",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test node --test",
+    "test": "NODE_ENV=test node --test --test-concurrency=1",
     "start": "NODE_ENV=production node ./backend/index.js",
     "dev": "NODE_ENV=development nodemon ./backend/index.js"
   },

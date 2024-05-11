@@ -33,7 +33,7 @@ describe("blog api", () => {
     );
   });
 
-  test.only("blogs api returns json", async () => {
+  test("blogs api returns json", async () => {
     const response = await api
       .get("/api/blogs")
       .expect(200)
