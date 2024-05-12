@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import Blog from "./components/Blog.jsx";
+import Notification from "./components/Notification.jsx";
 import blogService from "./services/blogs.js";
 import loginService from "./services/login.js";
 
@@ -9,6 +10,7 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const [notification, setNotification] = useState(null); // {message: "", variant: ""}
 
   const [blog, setBlog] = useState({
     title: "",
@@ -29,6 +31,18 @@ const App = () => {
     }
   }, []);
 
+  const handleError = (err) => {
+    console.error(err);
+    displayNotification(err.response.data.error, "error");
+  };
+
+  const displayNotification = (message, variant) => {
+    setNotification({ message, variant });
+    setTimeout(() => {
+      setNotification(null);
+    }, 5000);
+  };
+
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -40,9 +54,9 @@ const App = () => {
       blogService.setToken(data.token);
       setUsername("");
       setPassword("");
+      displayNotification(`Welcome back ${data.name}!`, "success");
     } catch (err) {
-      console.error(err);
-      // TODO: Display error notification
+      handleError(err);
     }
   };
 
@@ -57,13 +71,19 @@ const App = () => {
         author: "",
         url: "",
       });
+      displayNotification(
+        `a new blog ${newBlog.title} by ${newBlog.author} added`,
+        "success"
+      );
     } catch (err) {
-      console.error(err);
+      handleError(err);
     }
   };
 
   return (
     <div>
+      <h2>blogs</h2>
+      <Notification notification={notification} />
       {!user && (
         <>
           <h2>login to application</h2>
@@ -89,7 +109,6 @@ const App = () => {
         </>
       )}
 
-      <h2>blogs</h2>
       {user && (
         <div>
           {user.name} logged in{" "}
