@@ -76,6 +76,24 @@ const App = () => {
     }
   };
 
+  const handleLike = async (id) => {
+    const blog = blogs.find((b) => b.id === id);
+
+    const blogToUpdate = {
+      ...blog,
+      user: blog.user.id,
+      likes: (blog.likes += 1),
+    };
+    try {
+      if (blog) {
+        const updatedBlog = await blogService.updateOne(id, blogToUpdate);
+        setBlogs((curr) => curr.map((b) => (b.id === id ? updatedBlog : b)));
+      }
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
   return (
     <div>
       <h2>blogs</h2>
@@ -111,7 +129,7 @@ const App = () => {
         </Togglable>
       )}
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleLike={handleLike} />
       ))}
     </div>
   );

@@ -23,4 +23,13 @@ const create = ({ title, author, url }) => {
   return request.then((response) => response.data);
 };
 
-export default { getAll, create, setToken };
+const updateOne = (id, data) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  const request = axios.put(`${baseUrl}/${id}`, data, config);
+  return request.then((response) => response.data);
+};
+
+export default { getAll, create, setToken, updateOne };
