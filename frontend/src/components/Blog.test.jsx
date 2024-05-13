@@ -5,6 +5,7 @@ import Blog from "./Blog.jsx";
 
 describe("<Blog />", () => {
   let container = null;
+  const mockHandler = vi.fn();
 
   beforeEach(() => {
     const blog = {
@@ -19,7 +20,7 @@ describe("<Blog />", () => {
       },
     };
 
-    container = render(<Blog blog={blog} />).container;
+    container = render(<Blog blog={blog} handleLike={mockHandler} />).container;
   });
 
   test("renders blog's title and author initially", () => {
@@ -40,5 +41,18 @@ describe("<Blog />", () => {
     await user.click(button);
 
     expect(contentDiv).not.toHaveStyle("display: none");
+  });
+
+  test("clicking the like button twice calls the event handler twice", async () => {
+    const user = userEvent.setup();
+
+    const viewButton = screen.getByText("view");
+    await user.click(viewButton);
+
+    const likeButton = screen.getByText("like");
+    await user.click(likeButton);
+    await user.click(likeButton);
+
+    expect(mockHandler.mock.calls).toHaveLength(2);
   });
 });
