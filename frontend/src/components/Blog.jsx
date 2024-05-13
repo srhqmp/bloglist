@@ -1,20 +1,25 @@
-import { useState } from 'react'
+import { useState } from "react";
 
 const Blog = ({ blog, isAuthor, handleLike, handleDelete }) => {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(false);
 
   return (
     <div className="blog-card">
-      {blog.title} {blog.author}{' '}
-      <button onClick={() => setVisible(!visible)}>
-        {visible ? 'hide' : 'view'}
-      </button>
-      <div style={{ display: visible ? '' : 'none' }}>
+      <div className="blog-card-title">
+        {blog.title} {blog.author}{" "}
+        <button onClick={() => setVisible(!visible)}>
+          {visible ? "hide" : "view"}
+        </button>
+      </div>
+      <div
+        className="blog-card-content"
+        style={{ display: visible ? "" : "none" }}
+      >
         <div>
           <em>{blog.url}</em>
         </div>
         <div>
-          likes {blog.likes}{' '}
+          likes {blog.likes}{" "}
           <button onClick={() => handleLike(blog.id)}>like</button>
         </div>
         <div>{blog.user.name}</div>
@@ -23,7 +28,7 @@ const Blog = ({ blog, isAuthor, handleLike, handleDelete }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Blog
+export default Blog;
