@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const Blog = ({ blog, isAuthor, handleLike, handleDelete }) => {
   const [visible, setVisible] = useState(false);
