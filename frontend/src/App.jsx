@@ -94,6 +94,27 @@ const App = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    const blog = blogs.find((b) => b.id === id);
+
+    try {
+      if (
+        id &&
+        blog &&
+        window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)
+      ) {
+        await blogService.deleteOne(id);
+        setBlogs((curr) => curr.filter((b) => b.id !== id));
+        displayNotification(
+          `You've successfully removed ${blog.title} by ${blog.author}`,
+          "success"
+        );
+      }
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
   const sortedBlogs = blogs.sort((a, b) => b?.likes - a?.likes);
 
   return (
@@ -131,7 +152,13 @@ const App = () => {
         </Togglable>
       )}
       {sortedBlogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} handleLike={handleLike} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          handleLike={handleLike}
+          handleDelete={handleDelete}
+          isAuthor={user && blog.user.id === user.id}
+        />
       ))}
     </div>
   );

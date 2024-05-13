@@ -32,4 +32,13 @@ const updateOne = (id, data) => {
   return request.then((response) => response.data);
 };
 
-export default { getAll, create, setToken, updateOne };
+const deleteOne = (id) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  const request = axios.delete(`${baseUrl}/${id}`, config);
+  return request.then((response) => response.data);
+};
+
+export default { getAll, create, setToken, updateOne, deleteOne };
