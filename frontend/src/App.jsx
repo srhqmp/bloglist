@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Blog from "./components/Blog.jsx";
 import Notification from "./components/Notification.jsx";
+import LoginForm from "./components/LoginForm.jsx";
+import Togglable from "./components/Togglable.jsx";
+
 import blogService from "./services/blogs.js";
 import loginService from "./services/login.js";
 
@@ -11,6 +14,8 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState(null); // {message: "", variant: ""}
+
+  const blogRef = useRef();
 
   const [blog, setBlog] = useState({
     title: "",
@@ -75,6 +80,7 @@ const App = () => {
         `a new blog ${newBlog.title} by ${newBlog.author} added`,
         "success"
       );
+      blogRef.current.toggleVisibility();
     } catch (err) {
       handleError(err);
     }
@@ -85,28 +91,15 @@ const App = () => {
       <h2>blogs</h2>
       <Notification notification={notification} />
       {!user && (
-        <>
-          <h2>login to application</h2>
-          <form onSubmit={handleLogin}>
-            <div>
-              username
-              <input
-                name="username"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-              />
-            </div>
-            <div>
-              password
-              <input
-                name="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </div>
-            <button type="submit">login</button>
-          </form>
-        </>
+        <Togglable buttonLabel="login">
+          <LoginForm
+            handleSubmit={handleLogin}
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+          />
+        </Togglable>
       )}
 
       {user && (
@@ -123,8 +116,8 @@ const App = () => {
         </div>
       )}
       {user && (
-        <>
-          <h2>create nw</h2>
+        <Togglable buttonLabel="new blog" ref={blogRef}>
+          <h2>create new</h2>
           <form onSubmit={handleNewBlog}>
             <div>
               title:{" "}
@@ -158,7 +151,7 @@ const App = () => {
             </div>
             <button type="submit">create</button>
           </form>
-        </>
+        </Togglable>
       )}
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
