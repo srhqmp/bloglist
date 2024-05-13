@@ -1,36 +1,37 @@
-import { useState, forwardRef, useImperativeHandle } from 'react'
+import { useState, forwardRef, useImperativeHandle } from "react";
 
 const BlogForm = forwardRef(({ handleSubmit }, refs) => {
   const [blog, setBlog] = useState({
-    title: '',
-    author: '',
-    url: '',
-  })
+    title: "",
+    author: "",
+    url: "",
+  });
 
   const resetForm = () => {
     setBlog({
-      title: '',
-      author: '',
-      url: '',
-    })
-  }
+      title: "",
+      author: "",
+      url: "",
+    });
+  };
 
   useImperativeHandle(refs, () => {
-    return { resetForm }
-  })
+    return { resetForm };
+  });
 
   const handleNewBlog = (event) => {
-    event.preventDefault()
-    handleSubmit(blog)
-  }
+    event.preventDefault();
+    handleSubmit(blog);
+  };
 
   return (
     <div>
       <h2>create new</h2>
       <form onSubmit={handleNewBlog}>
         <div>
-          title:{' '}
+          title:{" "}
           <input
+            id="title-input"
             name="title"
             value={blog.title}
             onChange={(event) =>
@@ -39,8 +40,9 @@ const BlogForm = forwardRef(({ handleSubmit }, refs) => {
           />
         </div>
         <div>
-          author:{' '}
+          author:{" "}
           <input
+            id="author-input"
             name="author"
             value={blog.author}
             onChange={(event) =>
@@ -49,8 +51,9 @@ const BlogForm = forwardRef(({ handleSubmit }, refs) => {
           />
         </div>
         <div>
-          url:{' '}
+          url:{" "}
           <input
+            id="url-input"
             name="url"
             value={blog.url}
             onChange={(event) =>
@@ -61,9 +64,9 @@ const BlogForm = forwardRef(({ handleSubmit }, refs) => {
         <button type="submit">create</button>
       </form>
     </div>
-  )
-})
+  );
+});
 
-BlogForm.displayName = 'BlogForm'
+BlogForm.displayName = "BlogForm";
 
-export default BlogForm
+export default BlogForm;
