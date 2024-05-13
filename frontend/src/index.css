@@ -19,3 +19,9 @@ h1 {
 .success {
   color: green;
 }
+
+.blog-card {
+  border: 1px solid #322C2B;
+  margin: 4px 0;
+  padding: 4px 12px;
+}
