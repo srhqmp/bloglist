@@ -11,7 +11,12 @@ import loginService from './services/login.js'
 import BlogForm from './components/BlogForm.jsx'
 
 import { displayMessage } from './reducers/notificationReducer.js'
-import { getAllBlogs, createBlog } from './reducers/blogReducer.js'
+import {
+  getAllBlogs,
+  createBlog,
+  likeBlog,
+  deleteBlog,
+} from './reducers/blogReducer.js'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -20,7 +25,6 @@ const App = () => {
     return state.blogs
   })
 
-  const [blogss, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -63,60 +67,35 @@ const App = () => {
     }
   }
 
-  const handleNewBlog = async (blog) => {
-    try {
-      dispatch(createBlog(blog))
-      blogFormRef.current.resetForm()
+  const handleNewBlog = (blog) => {
+    dispatch(createBlog(blog))
+    blogFormRef.current.resetForm()
+    dispatch(
+      displayMessage(
+        `a new blog ${blog.title} by ${blog.author} added`,
+        'success'
+      )
+    )
+    blogRef.current.toggleVisibility()
+  }
+
+  const handleLike = (id) => {
+    const blog = blogs.find((b) => b.id === id)
+    if (blog) {
+      dispatch(likeBlog(blog))
+    }
+  }
+
+  const handleDelete = (id) => {
+    const blog = blogs.find((b) => b.id === id)
+    if (id && window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      dispatch(deleteBlog(id))
       dispatch(
         displayMessage(
-          `a new blog ${blog.title} by ${blog.author} added`,
+          `You've successfully removed ${blog.title} by ${blog.author}`,
           'success'
         )
       )
-      blogRef.current.toggleVisibility()
-    } catch (err) {
-      handleError(err)
-    }
-  }
-
-  const handleLike = async (id) => {
-    const blog = blogs.find((b) => b.id === id)
-
-    const blogToUpdate = {
-      ...blog,
-      user: blog.user.id,
-      likes: (blog.likes += 1),
-    }
-    try {
-      if (blog) {
-        const updatedBlog = await blogService.updateOne(id, blogToUpdate)
-        setBlogs((curr) => curr.map((b) => (b.id === id ? updatedBlog : b)))
-      }
-    } catch (err) {
-      handleError(err)
-    }
-  }
-
-  const handleDelete = async (id) => {
-    const blog = blogs.find((b) => b.id === id)
-
-    try {
-      if (
-        id &&
-        blog &&
-        window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)
-      ) {
-        await blogService.deleteOne(id)
-        setBlogs((curr) => curr.filter((b) => b.id !== id))
-        dispatch(
-          displayMessage(
-            `You've successfully removed ${blog.title} by ${blog.author}`,
-            'success'
-          )
-        )
-      }
-    } catch (err) {
-      handleError(err)
     }
   }
 
