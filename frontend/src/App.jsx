@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Blog from './components/Blog.jsx'
 import Notification from './components/Notification.jsx'
@@ -11,22 +11,26 @@ import loginService from './services/login.js'
 import BlogForm from './components/BlogForm.jsx'
 
 import { displayMessage } from './reducers/notificationReducer.js'
+import { getAllBlogs, createBlog } from './reducers/blogReducer.js'
 
 const App = () => {
   const dispatch = useDispatch()
+  const blogs = useSelector((state) => {
+    console.log(state.blogs)
+    return state.blogs
+  })
 
-  const [blogs, setBlogs] = useState([])
+  const [blogss, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [notification, setNotification] = useState(null) // {message: "", variant: ""}
 
   const blogRef = useRef()
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+    dispatch(getAllBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const user = window.localStorage.getItem('loggedBlogUser')
@@ -40,15 +44,7 @@ const App = () => {
   const handleError = (err) => {
     console.error(err)
     dispatch(displayMessage(err.response.data.error, 'error'))
-    // displayNotification(err.response.data.error, 'error')
   }
-
-  // const displayNotification = (message, variant) => {
-  //   setNotification({ message, variant })
-  //   setTimeout(() => {
-  //     setNotification(null)
-  //   }, 5000)
-  // }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -69,12 +65,11 @@ const App = () => {
 
   const handleNewBlog = async (blog) => {
     try {
-      const newBlog = await blogService.create(blog)
-      setBlogs((curr) => curr.concat(newBlog))
+      dispatch(createBlog(blog))
       blogFormRef.current.resetForm()
       dispatch(
         displayMessage(
-          `a new blog ${newBlog.title} by ${newBlog.author} added`,
+          `a new blog ${blog.title} by ${blog.author} added`,
           'success'
         )
       )
@@ -125,7 +120,7 @@ const App = () => {
     }
   }
 
-  const sortedBlogs = blogs.sort((a, b) => b?.likes - a?.likes)
+  const sortedBlogs = [...blogs].sort((a, b) => b?.likes - a?.likes)
 
   return (
     <div>
