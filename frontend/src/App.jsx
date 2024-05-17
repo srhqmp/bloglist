@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Link, useMatch } from 'react-router-dom'
 
 import Blog from './components/Blog.jsx'
 import Notification from './components/Notification.jsx'
@@ -14,13 +14,8 @@ import { logoutUser, updateUser } from './reducers/userReducer.js'
 import { getAllUsers } from './reducers/usersReducer.js'
 
 const BlogsPage = () => {
-  const dispatch = useDispatch()
   const blogs = useSelector((state) => state.blogs)
   const sortedBlogs = [...blogs].sort((a, b) => b?.likes - a?.likes)
-
-  useEffect(() => {
-    dispatch(getAllBlogs())
-  }, [dispatch])
 
   return (
     <div>
@@ -55,13 +50,24 @@ const BlogFormPage = () => {
   )
 }
 
-const UsersPage = () => {
-  const dispatch = useDispatch()
-  const users = useSelector((state) => state.users)
+const UserPage = ({ user }) => {
+  if (!user) return <div>User Not Found</div>
 
-  useEffect(() => {
-    dispatch(getAllUsers())
-  }, [dispatch])
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <h3>added blogs</h3>
+      <ul>
+        {user.blogs.map((blog) => (
+          <li key={blog.id}>{blog.title}</li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+const UsersPage = () => {
+  const users = useSelector((state) => state.users)
 
   return (
     <div>
@@ -77,7 +83,9 @@ const UsersPage = () => {
           <tbody>
             {users.map((user) => (
               <tr key={user.id}>
-                <td>{user.name}</td>
+                <td>
+                  <Link to={`/users/${user.id}`}>{user.name}</Link>
+                </td>
                 <td>{user.blogs.length}</td>
               </tr>
             ))}
@@ -91,8 +99,12 @@ const UsersPage = () => {
 const App = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
+  const users = useSelector((state) => state.users)
+  const userMatch = useMatch('/users/:id')
 
   useEffect(() => {
+    dispatch(getAllBlogs())
+    dispatch(getAllUsers())
     dispatch(updateUser())
   }, [dispatch])
 
@@ -116,6 +128,18 @@ const App = () => {
       )}
       <Routes>
         <Route path="/users" element={<UsersPage />} />
+        <Route
+          path="/users/:id"
+          element={
+            <UserPage
+              user={
+                users &&
+                userMatch &&
+                users.find((u) => u.id === userMatch.params.id)
+              }
+            />
+          }
+        />
       </Routes>
     </div>
   )
