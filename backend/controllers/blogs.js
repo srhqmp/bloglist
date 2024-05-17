@@ -51,7 +51,7 @@ blogsRouter.delete(
         .json({ error: 'You are not authorize to delete this blog' })
     }
 
-    await Blog.findOneAndDelete(id)
+    await Blog.findByIdAndDelete(id)
     response.status(204).end()
   }
 )

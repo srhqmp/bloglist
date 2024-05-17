@@ -20,10 +20,7 @@ import {
 
 const App = () => {
   const dispatch = useDispatch()
-  const blogs = useSelector((state) => {
-    console.log(state.blogs)
-    return state.blogs
-  })
+  const blogs = useSelector((state) => state.blogs)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -70,12 +67,6 @@ const App = () => {
   const handleNewBlog = (blog) => {
     dispatch(createBlog(blog))
     blogFormRef.current.resetForm()
-    dispatch(
-      displayMessage(
-        `a new blog ${blog.title} by ${blog.author} added`,
-        'success'
-      )
-    )
     blogRef.current.toggleVisibility()
   }
 
@@ -89,13 +80,7 @@ const App = () => {
   const handleDelete = (id) => {
     const blog = blogs.find((b) => b.id === id)
     if (id && window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      dispatch(deleteBlog(id))
-      dispatch(
-        displayMessage(
-          `You've successfully removed ${blog.title} by ${blog.author}`,
-          'success'
-        )
-      )
+      dispatch(deleteBlog(blog))
     }
   }
 
