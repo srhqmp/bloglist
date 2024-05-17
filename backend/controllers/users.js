@@ -9,7 +9,7 @@ usersRouter.get('/', async (request, response) => {
     author: 1,
     url: 1,
   })
-  response.status(200).json(users)
+  response.json(users)
 })
 
 usersRouter.post('/', async (request, response) => {

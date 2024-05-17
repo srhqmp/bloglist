@@ -11,10 +11,16 @@ import BlogForm from './components/BlogForm.jsx'
 
 import { getAllBlogs, createBlog } from './reducers/blogReducer.js'
 import { logoutUser, updateUser } from './reducers/userReducer.js'
+import { getAllUsers } from './reducers/usersReducer.js'
 
 const BlogsPage = () => {
+  const dispatch = useDispatch()
   const blogs = useSelector((state) => state.blogs)
   const sortedBlogs = [...blogs].sort((a, b) => b?.likes - a?.likes)
+
+  useEffect(() => {
+    dispatch(getAllBlogs())
+  }, [dispatch])
 
   return (
     <div>
@@ -50,9 +56,34 @@ const BlogFormPage = () => {
 }
 
 const UsersPage = () => {
+  const dispatch = useDispatch()
+  const users = useSelector((state) => state.users)
+
+  useEffect(() => {
+    dispatch(getAllUsers())
+  }, [dispatch])
+
   return (
     <div>
       <h1>Users</h1>
+      {users ? (
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>blogs created</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id}>
+                <td>{user.name}</td>
+                <td>{user.blogs.length}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : null}
     </div>
   )
 }
@@ -60,10 +91,6 @@ const UsersPage = () => {
 const App = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
-
-  useEffect(() => {
-    dispatch(getAllBlogs())
-  }, [dispatch])
 
   useEffect(() => {
     dispatch(updateUser())
