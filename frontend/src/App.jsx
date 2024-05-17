@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Routes, Route } from 'react-router-dom'
 
 import Blog from './components/Blog.jsx'
 import Notification from './components/Notification.jsx'
@@ -11,13 +12,54 @@ import BlogForm from './components/BlogForm.jsx'
 import { getAllBlogs, createBlog } from './reducers/blogReducer.js'
 import { logoutUser, updateUser } from './reducers/userReducer.js'
 
-const App = () => {
-  const dispatch = useDispatch()
+const BlogsPage = () => {
   const blogs = useSelector((state) => state.blogs)
+  const sortedBlogs = [...blogs].sort((a, b) => b?.likes - a?.likes)
+
+  return (
+    <div>
+      {sortedBlogs.map((blog) => (
+        <Blog key={blog.id} blog={blog} />
+      ))}
+    </div>
+  )
+}
+
+const BlogFormPage = () => {
+  const dispatch = useDispatch()
+  const blogFormRef = useRef()
+  const blogRef = useRef()
+
   const user = useSelector((state) => state.user)
 
-  const blogRef = useRef()
-  const blogFormRef = useRef()
+  const handleNewBlog = (blog) => {
+    dispatch(createBlog(blog))
+    blogFormRef.current.resetForm()
+    blogRef.current.toggleVisibility()
+  }
+
+  return (
+    <div>
+      {user && (
+        <Togglable buttonLabel="new blog" ref={blogRef}>
+          <BlogForm handleSubmit={handleNewBlog} ref={blogFormRef} />
+        </Togglable>
+      )}
+    </div>
+  )
+}
+
+const UsersPage = () => {
+  return (
+    <div>
+      <h1>Users</h1>
+    </div>
+  )
+}
+
+const App = () => {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
 
   useEffect(() => {
     dispatch(getAllBlogs())
@@ -26,14 +68,6 @@ const App = () => {
   useEffect(() => {
     dispatch(updateUser())
   }, [dispatch])
-
-  const handleNewBlog = (blog) => {
-    dispatch(createBlog(blog))
-    blogFormRef.current.resetForm()
-    blogRef.current.toggleVisibility()
-  }
-
-  const sortedBlogs = [...blogs].sort((a, b) => b?.likes - a?.likes)
 
   return (
     <div>
@@ -47,18 +81,15 @@ const App = () => {
 
       {user && (
         <div>
-          {user.name} logged in{' '}
-          <button onClick={() => dispatch(logoutUser())}>logout</button>
+          {user.name} logged in
+          <div>
+            <button onClick={() => dispatch(logoutUser())}>logout</button>
+          </div>
         </div>
       )}
-      {user && (
-        <Togglable buttonLabel="new blog" ref={blogRef}>
-          <BlogForm handleSubmit={handleNewBlog} ref={blogFormRef} />
-        </Togglable>
-      )}
-      {sortedBlogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
+      <Routes>
+        <Route path="/users" element={<UsersPage />} />
+      </Routes>
     </div>
   )
 }
