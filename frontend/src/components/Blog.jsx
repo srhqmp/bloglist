@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 
 const Blog = ({ blog }) => {
@@ -26,7 +28,9 @@ const Blog = ({ blog }) => {
   return (
     <div className="blog-card">
       <div className="blog-card-title">
-        {blog.title} {blog.author}{' '}
+        <Link to={`/blogs/${blog.id}`}>
+          {blog.title} {blog.author}
+        </Link>{' '}
         <button onClick={() => setVisible(!visible)}>
           {visible ? 'hide' : 'view'}
         </button>

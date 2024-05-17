@@ -2,14 +2,13 @@ import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Routes, Route, Link, useMatch } from 'react-router-dom'
 
-import Blog from './components/Blog.jsx'
 import Notification from './components/Notification.jsx'
 import LoginForm from './components/LoginForm.jsx'
 import Togglable from './components/Togglable.jsx'
 
 import BlogForm from './components/BlogForm.jsx'
 
-import { getAllBlogs, createBlog } from './reducers/blogReducer.js'
+import { getAllBlogs, createBlog, likeBlog } from './reducers/blogReducer.js'
 import { logoutUser, updateUser } from './reducers/userReducer.js'
 import { getAllUsers } from './reducers/usersReducer.js'
 
@@ -20,8 +19,30 @@ const BlogsPage = () => {
   return (
     <div>
       {sortedBlogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <div key={blog.id} className="blog-card">
+          <Link to={`/blogs/${blog.id}`}>
+            {blog.title} {blog.author}
+          </Link>
+        </div>
       ))}
+    </div>
+  )
+}
+
+const BlogPage = ({ blog }) => {
+  const dispatch = useDispatch()
+
+  return (
+    <div>
+      <h1>{blog.title}</h1>
+      <p>
+        <a href={blog.url}>{blog.url}</a>
+      </p>
+      <p>
+        {blog.likes} likes{' '}
+        <button onClick={() => dispatch(likeBlog(blog))}>like</button>
+      </p>
+      <p>added by {blog.user.name}</p>
     </div>
   )
 }
@@ -100,7 +121,9 @@ const App = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const users = useSelector((state) => state.users)
+  const blogs = useSelector((state) => state.blogs)
   const userMatch = useMatch('/users/:id')
+  const blogMatch = useMatch('/blogs/:id')
 
   useEffect(() => {
     dispatch(getAllBlogs())
@@ -136,6 +159,19 @@ const App = () => {
                 users &&
                 userMatch &&
                 users.find((u) => u.id === userMatch.params.id)
+              }
+            />
+          }
+        />
+        <Route path="/" element={<BlogsPage />} />
+        <Route
+          path="/blogs/:id"
+          element={
+            <BlogPage
+              blog={
+                blogs &&
+                blogMatch &&
+                blogs.find((b) => b.id === blogMatch.params.id)
               }
             />
           }
