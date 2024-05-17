@@ -14,15 +14,12 @@ import {
   likeBlog,
   deleteBlog,
 } from './reducers/blogReducer.js'
-import { loginUser, logoutUser, updateUser } from './reducers/userReducer.js'
+import { logoutUser, updateUser } from './reducers/userReducer.js'
 
 const App = () => {
   const dispatch = useDispatch()
   const blogs = useSelector((state) => state.blogs)
   const user = useSelector((state) => state.user)
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
 
   const blogRef = useRef()
   const blogFormRef = useRef()
@@ -34,14 +31,6 @@ const App = () => {
   useEffect(() => {
     dispatch(updateUser())
   }, [dispatch])
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
-
-    dispatch(loginUser(username, password))
-    setUsername('')
-    setPassword('')
-  }
 
   const handleNewBlog = (blog) => {
     dispatch(createBlog(blog))
@@ -71,13 +60,7 @@ const App = () => {
       <Notification />
       {!user && (
         <Togglable buttonLabel="login">
-          <LoginForm
-            handleSubmit={handleLogin}
-            username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-          />
+          <LoginForm />
         </Togglable>
       )}
 
