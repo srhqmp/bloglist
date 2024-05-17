@@ -23,7 +23,7 @@ describe('<Blog />', () => {
     container = render(<Blog blog={blog} handleLike={mockHandler} />).container
   })
 
-  test("renders blog's title and author initially", () => {
+  test('renders blogs title and author initially', () => {
     const titleDiv = container.querySelector('.blog-card-title')
     const contentDiv = container.querySelector('.blog-card-content')
 
@@ -32,7 +32,7 @@ describe('<Blog />', () => {
     expect(contentDiv).toHaveStyle('display: none')
   })
 
-  test("displays blog url and likes when 'view' button is clicked", async () => {
+  test('displays blog url and likes when "view" button is clicked', async () => {
     const user = userEvent.setup()
 
     const contentDiv = container.querySelector('.blog-card-content')
