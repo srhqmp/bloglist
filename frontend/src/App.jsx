@@ -6,25 +6,23 @@ import Notification from './components/Notification.jsx'
 import LoginForm from './components/LoginForm.jsx'
 import Togglable from './components/Togglable.jsx'
 
-import blogService from './services/blogs.js'
-import loginService from './services/login.js'
 import BlogForm from './components/BlogForm.jsx'
 
-import { displayMessage } from './reducers/notificationReducer.js'
 import {
   getAllBlogs,
   createBlog,
   likeBlog,
   deleteBlog,
 } from './reducers/blogReducer.js'
+import { loginUser, logoutUser, updateUser } from './reducers/userReducer.js'
 
 const App = () => {
   const dispatch = useDispatch()
   const blogs = useSelector((state) => state.blogs)
+  const user = useSelector((state) => state.user)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
 
   const blogRef = useRef()
   const blogFormRef = useRef()
@@ -34,34 +32,15 @@ const App = () => {
   }, [dispatch])
 
   useEffect(() => {
-    const user = window.localStorage.getItem('loggedBlogUser')
-    if (user) {
-      const userJSON = JSON.parse(user)
-      setUser(userJSON)
-      blogService.setToken(userJSON.token)
-    }
-  }, [])
-
-  const handleError = (err) => {
-    console.error(err)
-    dispatch(displayMessage(err.response.data.error, 'error'))
-  }
+    dispatch(updateUser())
+  }, [dispatch])
 
   const handleLogin = async (event) => {
     event.preventDefault()
 
-    try {
-      const data = await loginService.login({ username, password })
-
-      window.localStorage.setItem('loggedBlogUser', JSON.stringify(data))
-      setUser(data)
-      blogService.setToken(data.token)
-      setUsername('')
-      setPassword('')
-      dispatch(displayMessage(`Welcome back ${data.name}!`, 'success'))
-    } catch (err) {
-      handleError(err)
-    }
+    dispatch(loginUser(username, password))
+    setUsername('')
+    setPassword('')
   }
 
   const handleNewBlog = (blog) => {
@@ -105,14 +84,7 @@ const App = () => {
       {user && (
         <div>
           {user.name} logged in{' '}
-          <button
-            onClick={() => {
-              window.localStorage.removeItem('loggedBlogUser')
-              setUser(null)
-            }}
-          >
-            logout
-          </button>
+          <button onClick={() => dispatch(logoutUser())}>logout</button>
         </div>
       )}
       {user && (
