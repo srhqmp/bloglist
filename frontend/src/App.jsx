@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Blog from './components/Blog.jsx'
@@ -8,12 +8,7 @@ import Togglable from './components/Togglable.jsx'
 
 import BlogForm from './components/BlogForm.jsx'
 
-import {
-  getAllBlogs,
-  createBlog,
-  likeBlog,
-  deleteBlog,
-} from './reducers/blogReducer.js'
+import { getAllBlogs, createBlog } from './reducers/blogReducer.js'
 import { logoutUser, updateUser } from './reducers/userReducer.js'
 
 const App = () => {
@@ -36,20 +31,6 @@ const App = () => {
     dispatch(createBlog(blog))
     blogFormRef.current.resetForm()
     blogRef.current.toggleVisibility()
-  }
-
-  const handleLike = (id) => {
-    const blog = blogs.find((b) => b.id === id)
-    if (blog) {
-      dispatch(likeBlog(blog))
-    }
-  }
-
-  const handleDelete = (id) => {
-    const blog = blogs.find((b) => b.id === id)
-    if (id && window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      dispatch(deleteBlog(blog))
-    }
   }
 
   const sortedBlogs = [...blogs].sort((a, b) => b?.likes - a?.likes)
@@ -76,13 +57,7 @@ const App = () => {
         </Togglable>
       )}
       {sortedBlogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          handleLike={handleLike}
-          handleDelete={handleDelete}
-          isAuthor={user && blog.user.id === user.id}
-        />
+        <Blog key={blog.id} blog={blog} />
       ))}
     </div>
   )
