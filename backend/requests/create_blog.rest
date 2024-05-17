@@ -1,12 +1,13 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNyaHFtcCIsImlkIjoiNjYzZTU5YjUyZTcwYzcxYTdjNzQwZDQwIiwiaWF0IjoxNzE1NDEyMDU3fQ.rD2l9KmThpckrqsCLwJPquWLrGCvNgbwcUrOG5zH6ks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNyaHFtcCIsImlkIjoiNjYzZTU5YjUyZTcwYzcxYTdjNzQwZDQwIiwiaWF0IjoxNzE1OTYxODAwLCJleHAiOjE3MTU5NjU0MDB9._N3qjCsJQOAr5UKnHNj9QyXDx_NJWj-pKXbm_0vat1A
 
 {
-    "title": "Ikaw Pa Rin",
+    "title": "Ikaw Pa Rin 2",
     "author": "Sarah",
     "url": "https://www.google.com",
-    "likes": 0
+    "likes": 0,
+    "comments": ["haha ang ganda", "ikaw pa rin, diba kanta yan?"]
 }
 
 ###
