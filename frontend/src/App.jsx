@@ -12,12 +12,37 @@ import { getAllBlogs, createBlog, likeBlog } from './reducers/blogReducer.js'
 import { logoutUser, updateUser } from './reducers/userReducer.js'
 import { getAllUsers } from './reducers/usersReducer.js'
 
+const BlogFormButton = () => {
+  const dispatch = useDispatch()
+  const blogFormRef = useRef()
+  const blogRef = useRef()
+
+  const user = useSelector((state) => state.user)
+
+  const handleNewBlog = (blog) => {
+    dispatch(createBlog(blog))
+    blogFormRef.current.resetForm()
+    blogRef.current.toggleVisibility()
+  }
+
+  return (
+    <div>
+      {user && (
+        <Togglable buttonLabel="create new" ref={blogRef}>
+          <BlogForm handleSubmit={handleNewBlog} ref={blogFormRef} />
+        </Togglable>
+      )}
+    </div>
+  )
+}
+
 const BlogsPage = () => {
   const blogs = useSelector((state) => state.blogs)
   const sortedBlogs = [...blogs].sort((a, b) => b?.likes - a?.likes)
 
   return (
     <div>
+      <BlogFormButton />
       {sortedBlogs.map((blog) => (
         <div key={blog.id} className="blog-card">
           <Link to={`/blogs/${blog.id}`}>
@@ -43,30 +68,6 @@ const BlogPage = ({ blog }) => {
         <button onClick={() => dispatch(likeBlog(blog))}>like</button>
       </p>
       <p>added by {blog.user.name}</p>
-    </div>
-  )
-}
-
-const BlogFormPage = () => {
-  const dispatch = useDispatch()
-  const blogFormRef = useRef()
-  const blogRef = useRef()
-
-  const user = useSelector((state) => state.user)
-
-  const handleNewBlog = (blog) => {
-    dispatch(createBlog(blog))
-    blogFormRef.current.resetForm()
-    blogRef.current.toggleVisibility()
-  }
-
-  return (
-    <div>
-      {user && (
-        <Togglable buttonLabel="new blog" ref={blogRef}>
-          <BlogForm handleSubmit={handleNewBlog} ref={blogFormRef} />
-        </Togglable>
-      )}
     </div>
   )
 }
@@ -117,6 +118,23 @@ const UsersPage = () => {
   )
 }
 
+const NavigationMenu = () => {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
+
+  return (
+    <div className="nav-menu">
+      <Link to="/">blogs</Link> <Link to="/users">users</Link>{' '}
+      {user && (
+        <span>
+          {user.name} logged in{' '}
+          <button onClick={() => dispatch(logoutUser())}>logout</button>
+        </span>
+      )}
+    </div>
+  )
+}
+
 const App = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
@@ -133,21 +151,13 @@ const App = () => {
 
   return (
     <div>
-      <h2>blogs</h2>
+      <NavigationMenu />
+      <h2>blog app</h2>
       <Notification />
       {!user && (
         <Togglable buttonLabel="login">
           <LoginForm />
         </Togglable>
-      )}
-
-      {user && (
-        <div>
-          {user.name} logged in
-          <div>
-            <button onClick={() => dispatch(logoutUser())}>logout</button>
-          </div>
-        </div>
       )}
       <Routes>
         <Route path="/users" element={<UsersPage />} />
