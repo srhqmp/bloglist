@@ -68,6 +68,16 @@ const BlogPage = ({ blog }) => {
         <button onClick={() => dispatch(likeBlog(blog))}>like</button>
       </p>
       <p>added by {blog.user.name}</p>
+      <h3>comments</h3>
+      {blog.comments.length ? (
+        <ul>
+          {blog.comments.map((comment, index) => (
+            <li key={`${comment}-${index}`}>{comment}</li>
+          ))}
+        </ul>
+      ) : (
+        <div>No comments at this moment</div>
+      )}
     </div>
   )
 }
