@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
 
 import Blog from './components/Blog.jsx'
 import Notification from './components/Notification.jsx'
@@ -9,7 +10,11 @@ import blogService from './services/blogs.js'
 import loginService from './services/login.js'
 import BlogForm from './components/BlogForm.jsx'
 
+import { displayMessage } from './reducers/notificationReducer.js'
+
 const App = () => {
+  const dispatch = useDispatch()
+
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -34,15 +39,16 @@ const App = () => {
 
   const handleError = (err) => {
     console.error(err)
-    displayNotification(err.response.data.error, 'error')
+    dispatch(displayMessage(err.response.data.error, 'error'))
+    // displayNotification(err.response.data.error, 'error')
   }
 
-  const displayNotification = (message, variant) => {
-    setNotification({ message, variant })
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)
-  }
+  // const displayNotification = (message, variant) => {
+  //   setNotification({ message, variant })
+  //   setTimeout(() => {
+  //     setNotification(null)
+  //   }, 5000)
+  // }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -55,7 +61,7 @@ const App = () => {
       blogService.setToken(data.token)
       setUsername('')
       setPassword('')
-      displayNotification(`Welcome back ${data.name}!`, 'success')
+      dispatch(displayMessage(`Welcome back ${data.name}!`, 'success'))
     } catch (err) {
       handleError(err)
     }
@@ -66,9 +72,11 @@ const App = () => {
       const newBlog = await blogService.create(blog)
       setBlogs((curr) => curr.concat(newBlog))
       blogFormRef.current.resetForm()
-      displayNotification(
-        `a new blog ${newBlog.title} by ${newBlog.author} added`,
-        'success'
+      dispatch(
+        displayMessage(
+          `a new blog ${newBlog.title} by ${newBlog.author} added`,
+          'success'
+        )
       )
       blogRef.current.toggleVisibility()
     } catch (err) {
@@ -105,9 +113,11 @@ const App = () => {
       ) {
         await blogService.deleteOne(id)
         setBlogs((curr) => curr.filter((b) => b.id !== id))
-        displayNotification(
-          `You've successfully removed ${blog.title} by ${blog.author}`,
-          'success'
+        dispatch(
+          displayMessage(
+            `You've successfully removed ${blog.title} by ${blog.author}`,
+            'success'
+          )
         )
       }
     } catch (err) {
@@ -120,7 +130,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification notification={notification} />
+      <Notification />
       {!user && (
         <Togglable buttonLabel="login">
           <LoginForm
