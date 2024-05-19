@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   AppBar,
   Container,
@@ -38,15 +38,16 @@ const settings = [
 const NavBar = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
   const user = useSelector((state) => state.user)
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
 
   useEffect(() => {
-    if (user) {
+    if (user && location.pathname === '/login') {
       navigate('/')
     }
-  }, [navigate, user])
+  }, [location.pathname, navigate, user])
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)

@@ -1,7 +1,8 @@
 import { useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Container } from '@mui/material'
+import { Container, Card, CardHeader, Typography } from '@mui/material'
+import { Face as FaceIcon, Title as TitleIcon } from '@mui/icons-material'
 
 import { createBlog } from '../reducers/blogReducer.js'
 
@@ -40,11 +41,36 @@ const BlogsPage = () => {
     <Container>
       <BlogFormButton />
       {sortedBlogs.map((blog) => (
-        <div key={blog.id} className="blog-card">
-          <Link to={`/blogs/${blog.id}`}>
-            {blog.title} {blog.author}
-          </Link>
-        </div>
+        <Card key={blog.id} sx={{ mb: 1 }}>
+          <CardHeader
+            title={
+              <Typography
+                component={Link}
+                to={`/blogs/${blog.id}`}
+                color="secondary"
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 2,
+                  textDecoration: 'none',
+                }}
+              >
+                <TitleIcon sx={{ fontSize: 15 }} /> {blog.title}
+              </Typography>
+            }
+            subheader={
+              <>
+                <Typography
+                  variant="caption"
+                  sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
+                >
+                  <FaceIcon sx={{ fontSize: 15 }} />
+                  {blog.author}
+                </Typography>
+              </>
+            }
+          />
+        </Card>
       ))}
     </Container>
   )
