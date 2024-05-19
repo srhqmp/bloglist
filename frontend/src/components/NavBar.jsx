@@ -31,7 +31,7 @@ const pages = [
   },
 ]
 const settings = [
-  { id: 1, name: 'Profile', path: '/profile', icon: <FaceIcon /> },
+  // { id: 1, name: 'Profile', path: '/profile', icon: <FaceIcon /> },
 ]
 
 const NavBar = () => {
@@ -193,7 +193,10 @@ const NavBar = () => {
                 {settings.map((setting) => (
                   <MenuItem
                     key={setting.id}
-                    onClick={handleCloseUserMenu}
+                    onClick={() => {
+                      navigate(setting.path)
+                      handleCloseUserMenu()
+                    }}
                     sx={{ display: 'flex', gap: 1 }}
                   >
                     {setting.icon}
