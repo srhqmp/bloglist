@@ -1,4 +1,5 @@
 import { useState, forwardRef, useImperativeHandle } from 'react'
+import { Button, Paper, Typography, Box, Grid, TextField } from '@mui/material'
 
 const BlogForm = forwardRef(({ handleSubmit }, refs) => {
   const [blog, setBlog] = useState({
@@ -25,45 +26,64 @@ const BlogForm = forwardRef(({ handleSubmit }, refs) => {
   }
 
   return (
-    <div>
-      <h2>create new</h2>
-      <form onSubmit={handleNewBlog}>
-        <div>
-          title:{' '}
-          <input
-            id="title-input"
-            name="title"
-            value={blog.title}
-            onChange={(event) =>
-              setBlog((curr) => ({ ...curr, title: event.target.value }))
-            }
-          />
-        </div>
-        <div>
-          author:{' '}
-          <input
-            id="author-input"
-            name="author"
-            value={blog.author}
-            onChange={(event) =>
-              setBlog((curr) => ({ ...curr, author: event.target.value }))
-            }
-          />
-        </div>
-        <div>
-          url:{' '}
-          <input
-            id="url-input"
-            name="url"
-            value={blog.url}
-            onChange={(event) =>
-              setBlog((curr) => ({ ...curr, url: event.target.value }))
-            }
-          />
-        </div>
-        <button type="submit">create</button>
-      </form>
-    </div>
+    <Paper elevation={3} sx={{ mt: 2, py: 1, px: 1, maxWidth: 600 }}>
+      <Box mb={2}>
+        <Typography variant="h6" color="secondary">
+          Create new blog
+        </Typography>
+      </Box>
+      <Box component="form" noValidate onSubmit={handleNewBlog}>
+        <Grid container gap={2}>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              size="small"
+              label="Title"
+              id="title-input"
+              name="title"
+              value={blog.title}
+              onChange={(event) =>
+                setBlog((curr) => ({ ...curr, title: event.target.value }))
+              }
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              size="small"
+              label="Author"
+              id="author-input"
+              name="author"
+              value={blog.author}
+              onChange={(event) =>
+                setBlog((curr) => ({ ...curr, author: event.target.value }))
+              }
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              size="small"
+              label="Url"
+              id="url-input"
+              name="url"
+              value={blog.url}
+              onChange={(event) =>
+                setBlog((curr) => ({ ...curr, url: event.target.value }))
+              }
+            />
+          </Grid>
+          <Grid item>
+            <Button variant="contained" type="submit">
+              create
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+    </Paper>
   )
 })
 

@@ -1,59 +1,16 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Routes, Route, Link, useMatch } from 'react-router-dom'
 
 import Notification from './components/Notification.jsx'
-import Togglable from './components/Togglable.jsx'
 import CommentForm from './components/CommentForm.jsx'
-import BlogForm from './components/BlogForm.jsx'
 import NavBar from './components/NavBar.jsx'
+import BlogsPage from './pages/BlogsPage.jsx'
 
-import { getAllBlogs, createBlog, likeBlog } from './reducers/blogReducer.js'
+import { getAllBlogs, likeBlog } from './reducers/blogReducer.js'
 import { updateUser } from './reducers/userReducer.js'
 import { getAllUsers } from './reducers/usersReducer.js'
 import LoginPage from './pages/LoginPage.jsx'
-
-const BlogFormButton = () => {
-  const dispatch = useDispatch()
-  const blogFormRef = useRef()
-  const blogRef = useRef()
-
-  const user = useSelector((state) => state.user)
-
-  const handleNewBlog = (blog) => {
-    dispatch(createBlog(blog))
-    blogFormRef.current.resetForm()
-    blogRef.current.toggleVisibility()
-  }
-
-  return (
-    <div>
-      {user && (
-        <Togglable buttonLabel="create new" ref={blogRef}>
-          <BlogForm handleSubmit={handleNewBlog} ref={blogFormRef} />
-        </Togglable>
-      )}
-    </div>
-  )
-}
-
-const BlogsPage = () => {
-  const blogs = useSelector((state) => state.blogs)
-  const sortedBlogs = [...blogs].sort((a, b) => b?.likes - a?.likes)
-
-  return (
-    <div>
-      <BlogFormButton />
-      {sortedBlogs.map((blog) => (
-        <div key={blog.id} className="blog-card">
-          <Link to={`/blogs/${blog.id}`}>
-            {blog.title} {blog.author}
-          </Link>
-        </div>
-      ))}
-    </div>
-  )
-}
 
 const BlogPage = ({ blog }) => {
   const dispatch = useDispatch()
