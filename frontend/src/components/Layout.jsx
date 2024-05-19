@@ -8,21 +8,33 @@ import {
   Button,
   Divider,
   Container,
+  ThemeProvider,
+  GlobalStyles,
 } from '@mui/material'
 
 import Notification from './Notification.jsx'
 import NavBar from './NavBar.jsx'
 
+import getTheme from '../theme/index.js'
+import useDarkMode from '../hooks/useDarkMode.js'
 import { favoriteBlog, mostBlogs, mostLikes } from '../utils/index.js'
 
 const Layout = ({ children }) => {
+  const [themeMode, themeToggler, mountedComponent] = useDarkMode()
   const blogs = useSelector((state) => state.blogs)
   const favBlog = favoriteBlog(blogs)
   const popularBlogger = mostLikes(blogs)
   const activeBlogger = mostBlogs(blogs)
 
   return (
-    <div>
+    <ThemeProvider theme={getTheme(themeMode, themeToggler)}>
+      <GlobalStyles
+        styles={{
+          body: {
+            backgroundColor: themeMode === 'light' ? '#f0f0f0' : '#303030',
+          },
+        }}
+      />
       <NavBar />
       <Notification />
       <Grid container gap={1}>
@@ -109,7 +121,7 @@ const Layout = ({ children }) => {
           </Container>
         </Grid>
       </Grid>
-    </div>
+    </ThemeProvider>
   )
 }
 

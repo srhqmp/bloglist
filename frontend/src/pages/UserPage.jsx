@@ -47,7 +47,15 @@ const UserPage = ({ user }) => {
                     <KeyboardArrowRightIcon />
                   </ListItemIcon>
                   <ListItemText
-                    primary={<Link to={`/blogs/${blog.id}`}>{blog.title}</Link>}
+                    primary={
+                      <Typography
+                        component={Link}
+                        color="secondary"
+                        to={`/blogs/${blog.id}`}
+                      >
+                        {blog.title}
+                      </Typography>
+                    }
                   />
                 </ListItem>
               ))}

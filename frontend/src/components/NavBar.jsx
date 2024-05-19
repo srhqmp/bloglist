@@ -20,7 +20,10 @@ import {
   Face as FaceIcon,
   CollectionsBookmark as CollectionsBookmarkIcon,
 } from '@mui/icons-material'
-import { logoutUser } from '../reducers/userReducer'
+
+import { logoutUser } from '../reducers/userReducer.js'
+
+import ThemeModeToggler from './ThemeModeToggler.jsx'
 
 const pages = [
   { id: 1, name: 'Blogs', path: '/' },
@@ -68,12 +71,14 @@ const NavBar = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <CollectionsBookmarkIcon
+            color="secondary"
             sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
           />
           <Typography
             variant="h6"
             noWrap
             component={Link}
+            color="secondary"
             to="/"
             sx={{
               mr: 2,
@@ -81,7 +86,6 @@ const NavBar = () => {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
               textDecoration: 'none',
             }}
           >
@@ -94,7 +98,7 @@ const NavBar = () => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              color="secondary"
             >
               <MenuIcon />
             </IconButton>
@@ -129,12 +133,14 @@ const NavBar = () => {
             </Menu>
           </Box>
           <CollectionsBookmarkIcon
+            color="secondary"
             sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}
           />
           <Typography
             variant="h5"
             noWrap
             component="a"
+            color="secondary"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -142,7 +148,6 @@ const NavBar = () => {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
               textDecoration: 'none',
             }}
           >
@@ -161,11 +166,14 @@ const NavBar = () => {
               </Button>
             ))}
           </Box>
+          <Box mr={2}>
+            <ThemeModeToggler />
+          </Box>
           {user ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <FaceIcon size="large" sx={{ color: '#ffffff' }} />
+                  <FaceIcon size="large" color="secondary" />
                 </IconButton>
               </Tooltip>
               <Menu

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import {
   Container,
   Typography,
@@ -51,7 +51,8 @@ const BlogPage = ({ blog }) => {
         <CardContent>
           <Grid container>
             <Grid item xs={12}>
-              <Typography component="a" href={blog.url}>
+              <strong>url:</strong>{' '}
+              <Typography component={Link} color="secondary" href={blog.url}>
                 <em>{blog.url}</em>
               </Typography>
             </Grid>

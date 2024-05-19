@@ -21,7 +21,13 @@ const UsersPage = () => {
       headerName: 'Name',
       width: 300,
       renderCell: (params) => (
-        <Link to={`/users/${params.id}`}>{params.formattedValue}</Link>
+        <Typography
+          component={Link}
+          to={`/users/${params.id}`}
+          color="secondary"
+        >
+          {params.formattedValue}
+        </Typography>
       ),
     },
     {
