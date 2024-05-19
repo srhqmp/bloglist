@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { Grid, Button, Paper, Box, TextField } from '@mui/material'
 
 import { loginUser } from '../reducers/userReducer'
 
@@ -18,30 +19,40 @@ const LoginForm = () => {
   }
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          username{' '}
-          <input
-            type="text"
-            name="username"
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password{' '}
-          <input
-            type="text"
-            name="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form>
-    </div>
+    <Paper elevation={3} sx={{ mt: 2, py: 4, px: 4 }}>
+      <Box component="form" noValidate onSubmit={handleLogin}>
+        <Grid container gap={2}>
+          <Grid item xs={12}>
+            <TextField
+              required
+              label="Username"
+              variant="filled"
+              name="username"
+              value={username}
+              fullWidth
+              onChange={({ target }) => setUsername(target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              label="Password"
+              variant="filled"
+              name="password"
+              value={password}
+              type="password"
+              fullWidth
+              onChange={({ target }) => setPassword(target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button type="submit" size="large" variant="contained">
+              login
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+    </Paper>
   )
 }
 
