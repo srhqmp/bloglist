@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+import { logoutUser } from './userReducer'
+
 const initialState = { message: '', variant: null }
 
 const notificationSlice = createSlice({
@@ -29,6 +31,9 @@ export const displayMessage = (message, variant) => {
   return async (dispatch) => {
     dispatch(setNotification({ message, variant }))
     dispatch(resetNotification(5))
+    if (variant === 'error' && message.includes('token')) {
+      dispatch(logoutUser())
+    }
   }
 }
 
