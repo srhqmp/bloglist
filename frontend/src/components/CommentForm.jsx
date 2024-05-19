@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { Button, Paper, Typography, Box, Grid, TextField } from '@mui/material'
+
 import { addComment } from '../reducers/blogReducer.js'
 import { displayMessage } from '../reducers/notificationReducer.js'
-import { useParams } from 'react-router-dom'
 
 const CommentForm = () => {
   const { id } = useParams()
@@ -25,15 +27,34 @@ const CommentForm = () => {
 
   return (
     <div className="comment-form">
-      <form onSubmit={handleNewComment}>
-        <input
-          id="comment-input"
-          name="comment"
-          value={comment}
-          onChange={(event) => setComment(event.target.value)}
-        />
-        <button type="submit">add comment</button>
-      </form>
+      <Box
+        component="form"
+        noValidate
+        autoComplete="off"
+        onSubmit={handleNewComment}
+      >
+        <Grid container gap={1}>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              multiline
+              size="small"
+              label="Comment"
+              id="comment-input"
+              rows={4}
+              name="comment"
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button type="submit" variant="outlined" size="small">
+              add comment
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
     </div>
   )
 }

@@ -3,47 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Routes, Route, Link, useMatch } from 'react-router-dom'
 
 import Notification from './components/Notification.jsx'
-import CommentForm from './components/CommentForm.jsx'
 import NavBar from './components/NavBar.jsx'
 import BlogsPage from './pages/BlogsPage.jsx'
+import BlogPage from './pages/BlogPage.jsx'
 
-import { getAllBlogs, likeBlog } from './reducers/blogReducer.js'
+import { getAllBlogs } from './reducers/blogReducer.js'
 import { updateUser } from './reducers/userReducer.js'
 import { getAllUsers } from './reducers/usersReducer.js'
 import LoginPage from './pages/LoginPage.jsx'
-
-const BlogPage = ({ blog }) => {
-  const dispatch = useDispatch()
-
-  if (!blog) {
-    return null
-  }
-
-  return (
-    <div>
-      <h1>{blog.title}</h1>
-      <p>
-        <a href={blog.url}>{blog.url}</a>
-      </p>
-      <p>
-        {blog.likes} likes{' '}
-        <button onClick={() => dispatch(likeBlog(blog))}>like</button>
-      </p>
-      <p>added by {blog.user.name}</p>
-      <h3>comments</h3>
-      <CommentForm />
-      {blog.comments.length ? (
-        <ul>
-          {blog.comments.map((comment, index) => (
-            <li key={`${comment}-${index}`}>{comment}</li>
-          ))}
-        </ul>
-      ) : (
-        <div>No comments at this moment</div>
-      )}
-    </div>
-  )
-}
 
 const UserPage = ({ user }) => {
   if (!user) return <div>User Not Found</div>
