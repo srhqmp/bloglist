@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Routes, Route, Link, useMatch } from 'react-router-dom'
+import { Routes, Route, useMatch } from 'react-router-dom'
 
 import Notification from './components/Notification.jsx'
 import NavBar from './components/NavBar.jsx'
 import BlogsPage from './pages/BlogsPage.jsx'
 import BlogPage from './pages/BlogPage.jsx'
+import UsersPage from './pages/UsersPage.jsx'
 
 import { getAllBlogs } from './reducers/blogReducer.js'
 import { updateUser } from './reducers/userReducer.js'
@@ -24,36 +25,6 @@ const UserPage = ({ user }) => {
           <li key={blog.id}>{blog.title}</li>
         ))}
       </ul>
-    </div>
-  )
-}
-
-const UsersPage = () => {
-  const users = useSelector((state) => state.users)
-
-  return (
-    <div>
-      <h1>Users</h1>
-      {users ? (
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>blogs created</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td>
-                  <Link to={`/users/${user.id}`}>{user.name}</Link>
-                </td>
-                <td>{user.blogs.length}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : null}
     </div>
   )
 }

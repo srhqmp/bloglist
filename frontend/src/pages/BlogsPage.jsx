@@ -39,6 +39,9 @@ const BlogsPage = () => {
 
   return (
     <Container>
+      <Typography variant="h3" color="secondary" sx={{ mb: 2 }}>
+        Blogs
+      </Typography>
       <BlogFormButton />
       {sortedBlogs.map((blog) => (
         <Card key={blog.id} sx={{ mb: 1 }}>
