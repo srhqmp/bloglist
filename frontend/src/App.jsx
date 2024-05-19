@@ -5,7 +5,7 @@ import { Routes, Route, Link, useMatch } from 'react-router-dom'
 import Notification from './components/Notification.jsx'
 import LoginForm from './components/LoginForm.jsx'
 import Togglable from './components/Togglable.jsx'
-
+import CommentForm from './components/CommentForm.jsx'
 import BlogForm from './components/BlogForm.jsx'
 
 import { getAllBlogs, createBlog, likeBlog } from './reducers/blogReducer.js'
@@ -57,6 +57,10 @@ const BlogsPage = () => {
 const BlogPage = ({ blog }) => {
   const dispatch = useDispatch()
 
+  if (!blog) {
+    return null
+  }
+
   return (
     <div>
       <h1>{blog.title}</h1>
@@ -69,6 +73,7 @@ const BlogPage = ({ blog }) => {
       </p>
       <p>added by {blog.user.name}</p>
       <h3>comments</h3>
+      <CommentForm />
       {blog.comments.length ? (
         <ul>
           {blog.comments.map((comment, index) => (

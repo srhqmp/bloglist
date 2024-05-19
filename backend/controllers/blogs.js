@@ -57,6 +57,26 @@ blogsRouter.delete(
   }
 )
 
+blogsRouter.post('/:id/comment', async (request, response) => {
+  const id = request.params.id
+
+  const comment = request.body.comment
+  if (!comment)
+    return response.status(400).json({ error: 'Comment must not be empty' })
+
+  const blog = await Blog.findById(id)
+  const comments = blog.comments.concat(comment)
+  blog.comments = comments
+
+  const updatedBlog = await blog.save()
+  const populatedBlog = await updatedBlog.populate('user', {
+    username: 1,
+    name: 1,
+  })
+
+  response.status(200).json(populatedBlog)
+})
+
 blogsRouter.put('/:id', async (request, response) => {
   const id = request.params.id
 
