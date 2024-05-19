@@ -40,7 +40,7 @@ const BlogPage = ({ blog }) => {
         startIcon={<KeyboardBackspaceIcon />}
         onClick={() => navigate('/')}
       >
-        Go back
+        View all blogs
       </Button>
       <Box sx={{ my: 2 }}>
         <Typography variant="h5" color="secondary">

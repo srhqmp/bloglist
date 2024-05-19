@@ -7,27 +7,12 @@ import NavBar from './components/NavBar.jsx'
 import BlogsPage from './pages/BlogsPage.jsx'
 import BlogPage from './pages/BlogPage.jsx'
 import UsersPage from './pages/UsersPage.jsx'
+import UserPage from './pages/UserPage.jsx'
+import LoginPage from './pages/LoginPage.jsx'
 
 import { getAllBlogs } from './reducers/blogReducer.js'
 import { updateUser } from './reducers/userReducer.js'
 import { getAllUsers } from './reducers/usersReducer.js'
-import LoginPage from './pages/LoginPage.jsx'
-
-const UserPage = ({ user }) => {
-  if (!user) return <div>User Not Found</div>
-
-  return (
-    <div>
-      <h1>{user.name}</h1>
-      <h3>added blogs</h3>
-      <ul>
-        {user.blogs.map((blog) => (
-          <li key={blog.id}>{blog.title}</li>
-        ))}
-      </ul>
-    </div>
-  )
-}
 
 const App = () => {
   const dispatch = useDispatch()
