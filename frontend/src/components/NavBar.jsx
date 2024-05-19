@@ -12,7 +12,6 @@ import {
   MenuItem,
   Button,
   Tooltip,
-  Avatar,
   Divider,
 } from '@mui/material'
 import {

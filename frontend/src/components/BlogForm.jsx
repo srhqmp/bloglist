@@ -26,7 +26,7 @@ const BlogForm = forwardRef(({ handleSubmit }, refs) => {
   }
 
   return (
-    <Paper elevation={3} sx={{ mt: 2, py: 1, px: 1, maxWidth: 600 }}>
+    <Paper elevation={3} sx={{ mt: 2, py: 1, px: 1 }}>
       <Box mb={2}>
         <Typography variant="h6" color="secondary">
           Create new blog
