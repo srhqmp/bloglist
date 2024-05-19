@@ -2,8 +2,10 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import loginService from '../services/login.js'
 import blogService from '../services/blogs.js'
+import userService from '../services/users.js'
 
 import { displayMessage } from './notificationReducer.js'
+import { getAllUsers } from './usersReducer.js'
 
 const userSlice = createSlice({
   name: 'user',
@@ -26,6 +28,7 @@ export const loginUser = (username, password) => {
       const data = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(data))
       dispatch(setUser(data))
+      dispatch(getAllUsers())
       blogService.setToken(data.token)
       dispatch(displayMessage(`Welcome back ${data.name}!`, 'success'))
     } catch (err) {
@@ -50,6 +53,18 @@ export const logoutUser = () => {
   return async (dispatch) => {
     window.localStorage.removeItem('loggedBlogUser')
     dispatch(removeUser())
+  }
+}
+
+export const createUser = ({ username, name, password }) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.createUser({ username, name, password })
+      if (data) dispatch(loginUser(username, password))
+    } catch (err) {
+      console.error(err)
+      dispatch(displayMessage(err.response.data.error, 'error'))
+    }
   }
 }
 

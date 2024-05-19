@@ -6,4 +6,9 @@ const getAll = () => {
   return request.then((response) => response.data)
 }
 
-export default { getAll }
+const createUser = ({ username, name, password }) => {
+  const request = axios.post(baseUrl, { username, name, password })
+  return request.then((response) => response.data)
+}
+
+export default { getAll, createUser }
