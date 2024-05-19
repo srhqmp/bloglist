@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   AppBar,
   Container,
@@ -19,6 +19,7 @@ import {
   Menu as MenuIcon,
   ExitToApp as ExitToAppIcon,
   Face as FaceIcon,
+  CollectionsBookmark as CollectionsBookmarkIcon,
 } from '@mui/icons-material'
 import { logoutUser } from '../reducers/userReducer'
 
@@ -36,9 +37,16 @@ const settings = [
 
 const NavBar = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const user = useSelector((state) => state.user)
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
+
+  useEffect(() => {
+    if (user) {
+      navigate('/')
+    }
+  }, [navigate, user])
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
@@ -59,6 +67,9 @@ const NavBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          <CollectionsBookmarkIcon
+            sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
+          />
           <Typography
             variant="h6"
             noWrap
@@ -74,7 +85,7 @@ const NavBar = () => {
               textDecoration: 'none',
             }}
           >
-            BLOG LIST
+            Blog List
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -117,7 +128,9 @@ const NavBar = () => {
               ))}
             </Menu>
           </Box>
-          {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
+          <CollectionsBookmarkIcon
+            sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}
+          />
           <Typography
             variant="h5"
             noWrap
@@ -133,7 +146,7 @@ const NavBar = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Blog List
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -152,7 +165,7 @@ const NavBar = () => {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <FaceIcon size="large" sx={{ color: '#ffffff' }} />
                 </IconButton>
               </Tooltip>
               <Menu

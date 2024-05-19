@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Routes, Route, Link, useMatch } from 'react-router-dom'
 
 import Notification from './components/Notification.jsx'
-import LoginForm from './components/LoginForm.jsx'
 import Togglable from './components/Togglable.jsx'
 import CommentForm from './components/CommentForm.jsx'
 import BlogForm from './components/BlogForm.jsx'
+import NavBar from './components/NavBar.jsx'
 
 import { getAllBlogs, createBlog, likeBlog } from './reducers/blogReducer.js'
-import { logoutUser, updateUser } from './reducers/userReducer.js'
+import { updateUser } from './reducers/userReducer.js'
 import { getAllUsers } from './reducers/usersReducer.js'
+import LoginPage from './pages/LoginPage.jsx'
 
 const BlogFormButton = () => {
   const dispatch = useDispatch()
@@ -133,26 +134,8 @@ const UsersPage = () => {
   )
 }
 
-const NavigationMenu = () => {
-  const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
-
-  return (
-    <div className="nav-menu">
-      <Link to="/">blogs</Link> <Link to="/users">users</Link>{' '}
-      {user && (
-        <span>
-          {user.name} logged in{' '}
-          <button onClick={() => dispatch(logoutUser())}>logout</button>
-        </span>
-      )}
-    </div>
-  )
-}
-
 const App = () => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
   const users = useSelector((state) => state.users)
   const blogs = useSelector((state) => state.blogs)
   const userMatch = useMatch('/users/:id')
@@ -166,15 +149,10 @@ const App = () => {
 
   return (
     <div>
-      <NavigationMenu />
-      <h2>blog app</h2>
+      <NavBar />
       <Notification />
-      {!user && (
-        <Togglable buttonLabel="login">
-          <LoginForm />
-        </Togglable>
-      )}
       <Routes>
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/users" element={<UsersPage />} />
         <Route
           path="/users/:id"
