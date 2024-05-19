@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
+import { Container } from '@mui/material'
 
 const Notification = () => {
   const notification = useSelector((state) => state.notification)
@@ -9,7 +10,11 @@ const Notification = () => {
   }
   const { message, variant = 'error' } = notification
 
-  return <div className={`${variant} notification`}>{message}</div>
+  return (
+    <Container maxWidth="lg" className={`${variant} notification`}>
+      {message}
+    </Container>
+  )
 }
 
 Notification.propTypes = {
