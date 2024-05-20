@@ -22,9 +22,9 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username": "invalid-user",
-    "name": "John",
-    "password": "12"
+    "username": "juan_delacruz",
+    "name": "Juan Dela Cruz",
+    "password": "password7"
 }
 
 ###
@@ -32,7 +32,118 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username": "12",
-    "name": "John",
-    "password": "hwllo"
+    "username": "maria_clara",
+    "name": "Maria Clara",
+    "password": "password8"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "pedro_penduko",
+    "name": "Pedro Penduko",
+    "password": "password9"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "jose_rizal",
+    "name": "Jose Rizal",
+    "password": "password10"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "andres_bonifacio",
+    "name": "Andres Bonifacio",
+    "password": "password11"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "gabriela_silang",
+    "name": "Gabriela Silang",
+    "password": "password12"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "lapu_lapu",
+    "name": "Lapu Lapu",
+    "password": "password13"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "emilio_aguinaldo",
+    "name": "Emilio Aguinaldo",
+    "password": "password14"
+}
+
+###
+
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "manny_pacquiao",
+    "name": "Manny Pacquiao",
+    "password": "password15"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "pia_wurtzbach",
+    "name": "Pia Wurtzbach",
+    "password": "password16"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "leonor_briones",
+    "name": "Leonor Briones",
+    "password": "password17"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "benigno_aquino",
+    "name": "Benigno Aquino",
+    "password": "password18"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "corazon_aquino",
+    "name": "Corazon Aquino",
+    "password": "password19"
 }
