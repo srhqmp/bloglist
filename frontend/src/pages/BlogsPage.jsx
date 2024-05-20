@@ -46,43 +46,47 @@ const BlogsPage = () => {
       </Typography>
       <BlogFormButton />
       {sortedBlogs.map((blog) => (
-        <Link key={blog.id} to={`/blogs/${blog.id}`}>
-          <Card>
-            <CardHeader
-              title={
-                <Typography
-                  variant="h6"
-                  color="secondary"
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2,
-                  }}
-                >
-                  {blog.title}
-                </Typography>
-              }
-              subheader={
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box key={blog.id} sx={{ mb: 1 }}>
+          <Link to={`/blogs/${blog.id}`}>
+            <Card>
+              <CardHeader
+                title={
                   <Typography
-                    variant="caption"
-                    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                    variant="h6"
+                    color="secondary"
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 2,
+                    }}
                   >
-                    <FaceIcon sx={{ fontSize: 15 }} />
-                    {blog.author}
+                    {blog.title}
                   </Typography>
-                  <Typography
-                    variant="caption"
-                    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                }
+                subheader={
+                  <Box
+                    sx={{ display: 'flex', justifyContent: 'space-between' }}
                   >
-                    <ScheduleIcon sx={{ fontSize: 15 }} />
-                    {formatTimeAgo(blog.createdAt)}
-                  </Typography>
-                </Box>
-              }
-            />
-          </Card>
-        </Link>
+                    <Typography
+                      variant="caption"
+                      sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                    >
+                      <FaceIcon sx={{ fontSize: 15 }} />
+                      {blog.author}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                    >
+                      <ScheduleIcon sx={{ fontSize: 15 }} />
+                      {formatTimeAgo(blog.createdAt)}
+                    </Typography>
+                  </Box>
+                }
+              />
+            </Card>
+          </Link>
+        </Box>
       ))}
     </Container>
   )

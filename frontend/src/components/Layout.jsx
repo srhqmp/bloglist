@@ -10,6 +10,7 @@ import {
   Container,
   ThemeProvider,
   GlobalStyles,
+  CssBaseline,
 } from '@mui/material'
 
 import Notification from './Notification.jsx'
@@ -37,7 +38,8 @@ const Layout = ({ children }) => {
         }}
       />
       <NavBar />
-      <Container>
+      <CssBaseline />
+      <Container sx={{ my: 12 }}>
         <Notification />
         <Grid container gap={1}>
           <Grid item xs={12} md={8}>
