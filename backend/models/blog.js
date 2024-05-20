@@ -40,14 +40,32 @@ const blogSchema = new mongoose.Schema({
     ref: 'User',
   },
   comments: {
-    type: [String],
+    type: [
+      {
+        content: {
+          type: String,
+          required: true,
+        },
+        timestamp: {
+          type: Date,
+          default: Date.now,
+        },
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+          required: true,
+        },
+      },
+    ],
     default: [],
   },
 })
 
 blogSchema.set('toJSON', {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
+    if (returnedObject._id) {
+      returnedObject.id = returnedObject._id.toString()
+    }
     delete returnedObject._id
     delete returnedObject.__v
     delete returnedObject.passwordHash

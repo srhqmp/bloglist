@@ -4,7 +4,13 @@ const Blog = require('../models/blog.js')
 const middleware = require('../utils/middleware.js')
 
 blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
+  const blogs = await Blog.find({})
+    .populate('user', { username: 1, name: 1 })
+    .populate({
+      path: 'comments.user',
+      select: 'username name',
+    })
+    .exec()
   response.json(blogs)
 })
 
@@ -57,25 +63,41 @@ blogsRouter.delete(
   }
 )
 
-blogsRouter.post('/:id/comment', async (request, response) => {
-  const id = request.params.id
+blogsRouter.post(
+  '/:id/comment',
+  middleware.userExtractor,
+  async (request, response) => {
+    const id = request.params.id
+    const user = request.user
 
-  const comment = request.body.comment
-  if (!comment)
-    return response.status(400).json({ error: 'Comment must not be empty' })
+    const comment = request.body.comment
+    if (!comment)
+      return response.status(400).json({ error: 'Comment must not be empty' })
 
-  const blog = await Blog.findById(id)
-  const comments = blog.comments.concat(comment)
-  blog.comments = comments
+    const blog = await Blog.findById(id)
+    const commentObj = {
+      content: comment,
+      user: user.id,
+    }
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      id,
+      { $push: { comments: commentObj } },
+      { new: true, runValidators: true }
+    )
+      .populate('user', { username: 1, name: 1 })
+      .populate({
+        path: 'comments.user',
+        select: 'username name',
+      })
+      .exec()
 
-  const updatedBlog = await blog.save()
-  const populatedBlog = await updatedBlog.populate('user', {
-    username: 1,
-    name: 1,
-  })
+    if (!updatedBlog) {
+      return response.status(404).json({ error: 'Blog not found' })
+    }
 
-  response.status(200).json(populatedBlog)
-})
+    response.status(200).json(updatedBlog)
+  }
+)
 
 blogsRouter.put('/:id', async (request, response) => {
   const id = request.params.id
@@ -91,7 +113,14 @@ blogsRouter.put('/:id', async (request, response) => {
     new: true,
     runValidators: true,
     context: 'query',
-  }).populate('user', { username: 1, name: 1 })
+  })
+    .populate('user', { username: 1, name: 1 })
+    .populate({
+      path: 'comments.user',
+      select: 'username name',
+    })
+    .exec()
+
   response.status(200).json(updatedBlog)
 })
 

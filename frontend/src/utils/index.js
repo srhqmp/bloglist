@@ -1,3 +1,5 @@
+import { formatDistanceToNow } from 'date-fns'
+
 export const favoriteBlog = (blogs) => {
   if (!blogs || blogs.length < 1) {
     return null
@@ -81,4 +83,8 @@ export const mostLikes = (blogs) => {
   })
 
   return mostLikedAuthor
+}
+
+export const formatTimeAgo = (timestamp) => {
+  return formatDistanceToNow(new Date(timestamp), { addSuffix: true })
 }

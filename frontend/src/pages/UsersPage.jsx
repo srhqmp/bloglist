@@ -45,16 +45,16 @@ const UsersPage = () => {
       </Typography>
       <Card>
         <CardContent>
-          <div style={{ height: '600px', width: '100%' }}>
+          <div style={{ height: '100%', minHeight: 650, width: '100%' }}>
             <DataGrid
               rows={users || []}
               columns={columns}
               initialState={{
                 pagination: {
-                  paginationModel: { page: 0, pageSize: 5 },
+                  paginationModel: { page: 0, pageSize: 10 },
                 },
               }}
-              pageSizeOptions={[5, 10]}
+              pageSizeOptions={[10, 20]}
             />
           </div>
         </CardContent>

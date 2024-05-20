@@ -9,20 +9,21 @@ import {
   Grid,
   Button,
   List,
-  ListItemIcon,
   ListItemText,
   ListItem,
   IconButton,
   CardHeader,
+  Divider,
 } from '@mui/material'
 import {
   ThumbUpAltOutlined as ThumbUpIcon,
-  KeyboardArrowRight as KeyboardArrowRightIcon,
   KeyboardBackspace as KeyboardBackspaceIcon,
   DeleteOutline as DeleteOutlineIcon,
 } from '@mui/icons-material'
 
 import { likeBlog, deleteBlog } from '../reducers/blogReducer.js'
+
+import { formatTimeAgo } from '../utils/index.js'
 
 import CommentForm from '../components/CommentForm.jsx'
 import WarningModal from '../components/WarningModal.jsx'
@@ -126,14 +127,17 @@ const BlogPage = ({ blog }) => {
                 Comments:
               </Typography>
               {blog.comments.length ? (
-                <List sx={{ width: '100%', maxWidth: 360 }}>
-                  {blog.comments.map((comment, index) => (
-                    <ListItem disablePadding key={`${comment}-${index}`}>
-                      <ListItemIcon>
-                        <KeyboardArrowRightIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={comment} />
-                    </ListItem>
+                <List sx={{ width: '100%' }}>
+                  {blog.comments.map((comment) => (
+                    <div key={comment._id}>
+                      <ListItem>
+                        <ListItemText
+                          primary={comment.content}
+                          secondary={`${comment.user.name} commented ${formatTimeAgo(comment.timestamp)}`}
+                        />
+                      </ListItem>
+                      <Divider />
+                    </div>
                   ))}
                 </List>
               ) : (

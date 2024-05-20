@@ -46,7 +46,11 @@ const deleteOne = (id) => {
 }
 
 const comment = (id, comment) => {
-  const request = axios.post(`${baseUrl}/${id}/comment`, { comment })
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  }
+
+  const request = axios.post(`${baseUrl}/${id}/comment`, { comment }, config)
   return request.then((response) => response.data)
 }
 
