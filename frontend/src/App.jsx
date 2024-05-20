@@ -9,6 +9,7 @@ import BlogPage from './pages/BlogPage.jsx'
 import UsersPage from './pages/UsersPage.jsx'
 import UserPage from './pages/UserPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
+import NotFoundPage from './pages/NotFoundPage.jsx'
 
 import { getAllBlogs } from './reducers/blogReducer.js'
 import { updateUser } from './reducers/userReducer.js'
@@ -57,6 +58,7 @@ const App = () => {
             />
           }
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Layout>
   )
