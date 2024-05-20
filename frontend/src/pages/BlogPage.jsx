@@ -62,6 +62,12 @@ const BlogPage = ({ blog }) => {
               {blog.title}
             </Typography>
           }
+          subheader={
+            <Typography variant="caption">
+              added by <strong>{blog.user.name}</strong>{' '}
+              {formatTimeAgo(blog.createdAt)}
+            </Typography>
+          }
           action={
             isAuthor ? (
               <IconButton
@@ -95,11 +101,6 @@ const BlogPage = ({ blog }) => {
             <Grid item xs={12}>
               <Typography>
                 <strong>{blog.likes} likes</strong>
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography>
-                added by <strong>{blog.user.name}</strong>
               </Typography>
             </Grid>
             <Grid item xs={12}>

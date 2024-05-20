@@ -1,10 +1,12 @@
 import { useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Container, Card, CardHeader, Typography } from '@mui/material'
-import { Face as FaceIcon, Title as TitleIcon } from '@mui/icons-material'
+import { Container, Card, CardHeader, Typography, Box } from '@mui/material'
+import { Face as FaceIcon, Schedule as ScheduleIcon } from '@mui/icons-material'
 
 import { createBlog } from '../reducers/blogReducer.js'
+
+import { formatTimeAgo } from '../utils/index.js'
 
 import Togglable from '../components/Togglable.jsx'
 import BlogForm from '../components/BlogForm.jsx'
@@ -44,37 +46,43 @@ const BlogsPage = () => {
       </Typography>
       <BlogFormButton />
       {sortedBlogs.map((blog) => (
-        <Card key={blog.id} sx={{ mb: 1 }}>
-          <CardHeader
-            title={
-              <Typography
-                component={Link}
-                to={`/blogs/${blog.id}`}
-                variant="h6"
-                color="secondary"
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 2,
-                  textDecoration: 'none',
-                }}
-              >
-                <TitleIcon sx={{ fontSize: 15 }} /> {blog.title}
-              </Typography>
-            }
-            subheader={
-              <>
+        <Link key={blog.id} to={`/blogs/${blog.id}`}>
+          <Card>
+            <CardHeader
+              title={
                 <Typography
-                  variant="caption"
-                  sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
+                  variant="h6"
+                  color="secondary"
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2,
+                  }}
                 >
-                  <FaceIcon sx={{ fontSize: 15 }} />
-                  by {blog.author}
+                  {blog.title}
                 </Typography>
-              </>
-            }
-          />
-        </Card>
+              }
+              subheader={
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Typography
+                    variant="caption"
+                    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                  >
+                    <FaceIcon sx={{ fontSize: 15 }} />
+                    {blog.author}
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                  >
+                    <ScheduleIcon sx={{ fontSize: 15 }} />
+                    {formatTimeAgo(blog.createdAt)}
+                  </Typography>
+                </Box>
+              }
+            />
+          </Card>
+        </Link>
       ))}
     </Container>
   )

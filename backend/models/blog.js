@@ -18,48 +18,51 @@ mongoose
     logger.error('error connecting to MongoDB', err.message)
   })
 
-const blogSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  author: {
-    type: String,
-  },
-  url: {
-    type: String,
-    default: null,
-    required: true,
-  },
-  likes: {
-    type: Number,
-    default: 0,
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  },
-  comments: {
-    type: [
-      {
-        content: {
-          type: String,
-          required: true,
+const blogSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: String,
+    },
+    url: {
+      type: String,
+      default: null,
+      required: true,
+    },
+    likes: {
+      type: Number,
+      default: 0,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    comments: {
+      type: [
+        {
+          content: {
+            type: String,
+            required: true,
+          },
+          timestamp: {
+            type: Date,
+            default: Date.now,
+          },
+          user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+          },
         },
-        timestamp: {
-          type: Date,
-          default: Date.now,
-        },
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'User',
-          required: true,
-        },
-      },
-    ],
-    default: [],
+      ],
+      default: [],
+    },
   },
-})
+  { timestamps: true }
+)
 
 blogSchema.set('toJSON', {
   transform: (document, returnedObject) => {

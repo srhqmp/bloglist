@@ -7,15 +7,14 @@ import {
   CardContent,
   CardHeader,
   List,
-  ListItemIcon,
   ListItemText,
   ListItem,
   Button,
+  Divider,
 } from '@mui/material'
-import {
-  KeyboardArrowRight as KeyboardArrowRightIcon,
-  KeyboardBackspace as KeyboardBackspaceIcon,
-} from '@mui/icons-material'
+import { KeyboardBackspace as KeyboardBackspaceIcon } from '@mui/icons-material'
+
+import { formatTimeAgo } from '../utils'
 
 const UserPage = ({ user }) => {
   const navigate = useNavigate()
@@ -36,28 +35,32 @@ const UserPage = ({ user }) => {
       </Typography>
       <Card>
         <CardHeader
-          title={<Typography color="secondary">Added Blogs:</Typography>}
+          title={
+            <Typography color="primary" variant="h5">
+              Added Blogs
+            </Typography>
+          }
         />
         <CardContent>
+          <Divider />
           {user.blogs.length ? (
-            <List sx={{ width: '100%', maxWidth: 360 }}>
+            <List sx={{ width: '100%' }}>
               {user.blogs.map((blog) => (
-                <ListItem disablePadding key={blog.id}>
-                  <ListItemIcon>
-                    <KeyboardArrowRightIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <Typography
-                        component={Link}
-                        color="secondary"
-                        to={`/blogs/${blog.id}`}
-                      >
-                        {blog.title}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
+                <Link key={blog.id} to={`/blogs/${blog.id}`}>
+                  <ListItem>
+                    <ListItemText
+                      primary={
+                        <Typography color="secondary">{blog.title}</Typography>
+                      }
+                      secondary={
+                        <Typography variant="caption" color="primary">
+                          created {formatTimeAgo(blog?.createdAt)}
+                        </Typography>
+                      }
+                    />
+                  </ListItem>
+                  <Divider />
+                </Link>
               ))}
             </List>
           ) : (

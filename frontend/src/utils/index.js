@@ -86,5 +86,7 @@ export const mostLikes = (blogs) => {
 }
 
 export const formatTimeAgo = (timestamp) => {
+  console.log(timestamp)
+  if (!timestamp) return ''
   return formatDistanceToNow(new Date(timestamp), { addSuffix: true })
 }
