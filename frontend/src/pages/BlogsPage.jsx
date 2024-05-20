@@ -50,6 +50,7 @@ const BlogsPage = () => {
               <Typography
                 component={Link}
                 to={`/blogs/${blog.id}`}
+                variant="h6"
                 color="secondary"
                 sx={{
                   display: 'flex',
@@ -68,7 +69,7 @@ const BlogsPage = () => {
                   sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
                 >
                   <FaceIcon sx={{ fontSize: 15 }} />
-                  {blog.author}
+                  by {blog.author}
                 </Typography>
               </>
             }

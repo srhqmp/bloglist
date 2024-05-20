@@ -52,6 +52,7 @@ export const updateUser = () => {
 export const logoutUser = () => {
   return async (dispatch) => {
     window.localStorage.removeItem('loggedBlogUser')
+    blogService.removeToken()
     dispatch(removeUser())
   }
 }

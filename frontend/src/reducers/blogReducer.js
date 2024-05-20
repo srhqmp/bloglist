@@ -104,6 +104,7 @@ export const deleteBlog = (data) => {
           'success'
         )
       )
+      return { redirect: true }
     } catch (err) {
       console.error(err)
       dispatch(displayMessage(err.response.data.error, 'error'))

@@ -1,11 +1,10 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import {
   Container,
   Typography,
   Card,
-  Box,
   CardContent,
   Grid,
   Button,
@@ -13,23 +12,36 @@ import {
   ListItemIcon,
   ListItemText,
   ListItem,
+  IconButton,
+  CardHeader,
 } from '@mui/material'
 import {
   ThumbUpAltOutlined as ThumbUpIcon,
   KeyboardArrowRight as KeyboardArrowRightIcon,
   KeyboardBackspace as KeyboardBackspaceIcon,
+  DeleteOutline as DeleteOutlineIcon,
 } from '@mui/icons-material'
 
-import { likeBlog } from '../reducers/blogReducer.js'
+import { likeBlog, deleteBlog } from '../reducers/blogReducer.js'
 
 import CommentForm from '../components/CommentForm.jsx'
+import WarningModal from '../components/WarningModal.jsx'
 
 const BlogPage = ({ blog }) => {
+  const [open, setOpen] = useState(false)
+  const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   if (!blog) {
     return null
+  }
+
+  const isAuthor = user && user.id === blog.user.id
+
+  const handleDelete = () => {
+    dispatch(deleteBlog(blog))
+    navigate('/')
   }
 
   return (
@@ -42,17 +54,40 @@ const BlogPage = ({ blog }) => {
       >
         View all blogs
       </Button>
-      <Box sx={{ my: 2 }}>
-        <Typography variant="h5" color="secondary">
-          {blog.title}
-        </Typography>
-      </Box>
       <Card>
+        <CardHeader
+          title={
+            <Typography color="secondary" variant="h4">
+              {blog.title}
+            </Typography>
+          }
+          action={
+            isAuthor ? (
+              <IconButton
+                aria-label="delete-blog"
+                onClick={() => setOpen(true)}
+              >
+                <DeleteOutlineIcon color="secondary" />
+              </IconButton>
+            ) : null
+          }
+        />
         <CardContent>
+          <WarningModal
+            open={open}
+            setOpen={setOpen}
+            message="Are you sure you want to delete this blog?"
+            handleAction={handleDelete}
+          />
           <Grid container>
             <Grid item xs={12}>
               <strong>url:</strong>{' '}
-              <Typography component={Link} color="secondary" href={blog.url}>
+              <Typography
+                component={Link}
+                target="_blank"
+                color="secondary"
+                to={blog.url}
+              >
                 <em>{blog.url}</em>
               </Typography>
             </Grid>

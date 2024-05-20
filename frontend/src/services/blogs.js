@@ -9,6 +9,10 @@ const setToken = (newToken) => {
   }
 }
 
+const removeToken = () => {
+  token = null
+}
+
 const getAll = () => {
   const request = axios.get(baseUrl)
   return request.then((response) => response.data)
@@ -46,4 +50,12 @@ const comment = (id, comment) => {
   return request.then((response) => response.data)
 }
 
-export default { getAll, create, setToken, updateOne, deleteOne, comment }
+export default {
+  getAll,
+  create,
+  setToken,
+  updateOne,
+  deleteOne,
+  comment,
+  removeToken,
+}
