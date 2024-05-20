@@ -1,6 +1,6 @@
-import { alpha } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles'
 const shadows = (themeMode = 'light') => {
-  const rgb = themeMode === 'light' ? '#8c98a4' : '#000000';
+  const rgb = themeMode === 'light' ? '#8c98a4' : '#000000'
 
   return [
     'none',
@@ -28,7 +28,7 @@ const shadows = (themeMode = 'light') => {
     `0 10px 40px 10px ${alpha(rgb, 0.175)}`,
     `0 10px 40px 10px ${alpha(rgb, 0.175)}`,
     `0 10px 40px 10px ${alpha(rgb, 0.175)}`,
-  ];
-};
+  ]
+}
 
-export default shadows;
+export default shadows
