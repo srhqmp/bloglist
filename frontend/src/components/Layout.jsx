@@ -101,7 +101,7 @@ const Layout = ({ children }) => {
               <Card sx={{ height: 180, mb: 2 }}>
                 <CardContent>
                   <Typography color="secondary" variant="caption" gutterBottom>
-                    Popular Blogger:
+                    Popular Blogger:{' '}
                   </Typography>
                   {popularBlogger ? (
                     <Typography variant="body2">{`${popularBlogger.author} with total of ${popularBlogger.likes} likes`}</Typography>
@@ -110,7 +110,7 @@ const Layout = ({ children }) => {
                   )}
                   <Divider sx={{ my: 2 }} />
                   <Typography color="secondary" variant="caption" gutterBottom>
-                    Most Active Blogger:
+                    Most Active Blogger:{' '}
                   </Typography>
                   {activeBlogger ? (
                     <Typography variant="body2">{`${activeBlogger.author} with total of ${activeBlogger.blogs} written blogs`}</Typography>

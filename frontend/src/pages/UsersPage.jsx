@@ -45,7 +45,7 @@ const UsersPage = () => {
       </Typography>
       <Card>
         <CardContent>
-          <div style={{ height: '100%', width: '100%' }}>
+          <div style={{ height: '600px', width: '100%' }}>
             <DataGrid
               rows={users || []}
               columns={columns}

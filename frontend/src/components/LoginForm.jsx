@@ -6,7 +6,6 @@ import { Grid, Button, Paper, Box, TextField } from '@mui/material'
 import { loginUser } from '../reducers/userReducer.js'
 
 const LoginForm = ({ handleNewUser }) => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const [username, setUsername] = useState('')
