@@ -2,7 +2,11 @@ import { useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Container, Card, CardHeader, Typography, Box } from '@mui/material'
-import { Face as FaceIcon, Schedule as ScheduleIcon } from '@mui/icons-material'
+import {
+  Face as FaceIcon,
+  Schedule as ScheduleIcon,
+  ThumbUpAltOutlined as ThumbUpIcon,
+} from '@mui/icons-material'
 
 import { createBlog } from '../reducers/blogReducer.js'
 
@@ -69,16 +73,28 @@ const BlogsPage = () => {
                   >
                     <Typography
                       variant="caption"
-                      sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                      }}
                     >
-                      <FaceIcon sx={{ fontSize: 15 }} />
+                      <FaceIcon
+                        sx={{ fontSize: 15, position: 'relative', bottom: 2 }}
+                      />
                       {blog.author}
+                      <ThumbUpIcon
+                        sx={{ fontSize: 15, position: 'relative', bottom: 2 }}
+                      />
+                      {blog.likes}
                     </Typography>
                     <Typography
                       variant="caption"
                       sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                     >
-                      <ScheduleIcon sx={{ fontSize: 15 }} />
+                      <ScheduleIcon
+                        sx={{ fontSize: 15, position: 'relative', bottom: 2 }}
+                      />
                       {formatTimeAgo(blog.createdAt)}
                     </Typography>
                   </Box>
