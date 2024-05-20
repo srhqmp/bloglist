@@ -14,6 +14,7 @@ import {
 
 import Notification from './Notification.jsx'
 import NavBar from './NavBar.jsx'
+import Footer from './Footer.jsx'
 
 import getTheme from '../theme/index.js'
 import useDarkMode from '../hooks/useDarkMode.js'
@@ -123,6 +124,7 @@ const Layout = ({ children }) => {
           </Grid>
         </Grid>
       </Container>
+      <Footer />
     </ThemeProvider>
   )
 }
